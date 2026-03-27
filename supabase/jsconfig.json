@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
+  }
+}
+```
+
+**4.** Guarda con **Ctrl + S**
+
+**5.** Vuelve a la terminal de VS Code y presiona **Ctrl + C** para detener el servidor, luego escribe de nuevo:
+```
+npm run dev

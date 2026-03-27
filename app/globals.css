@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Variables CSS globales ── */
+:root {
+  --brand:       #1F4E79;
+  --brand-light: #2E75B6;
+  --sidebar-w:   240px;
+}
+
+/* ── Reset / Base ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-slate-50 text-slate-800 antialiased;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* ── Scrollbar personalizado (Webkit) ── */
+::-webkit-scrollbar        { width: 6px; height: 6px; }
+::-webkit-scrollbar-track  { @apply bg-slate-100; }
+::-webkit-scrollbar-thumb  { @apply bg-slate-300 rounded-full; }
+::-webkit-scrollbar-thumb:hover { @apply bg-slate-400; }
+
+/* ── Utilidades de animación ── */
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  .animate-slide-up {
+    animation: slideUp 0.4s ease-out;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Tabla ── */
+.table-infobras {
+  @apply w-full text-sm border-collapse;
+}
+.table-infobras thead tr {
+  @apply bg-brand text-white;
+}
+.table-infobras thead th {
+  @apply px-4 py-3 text-left font-semibold tracking-wide;
+}
+.table-infobras tbody tr {
+  @apply border-b border-slate-100 hover:bg-slate-50 transition-colors;
+}
+.table-infobras tbody td {
+  @apply px-4 py-3;
+}
+
+/* ── Badge de estado ── */
+.badge {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+.badge-ejecucion  { @apply bg-green-100 text-green-800; }
+.badge-terminada  { @apply bg-blue-100  text-blue-800;  }
+.badge-paralizada { @apply bg-red-100   text-red-800;   }
+.badge-por_iniciar{ @apply bg-amber-100 text-amber-800; }
+.badge-liquidada  { @apply bg-purple-100 text-purple-800; }
