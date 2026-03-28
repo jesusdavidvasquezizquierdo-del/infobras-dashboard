@@ -3,14 +3,13 @@ import { useState } from 'react'
 import { Search, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react'
 import { ESTADO_LABELS, formatSoles, formatDate, truncate } from '@/lib/utils'
 
-const ESTADOS = ['Todos', 'En ejecucion', 'Terminada', 'Paralizada', 'Por iniciar', 'Liquidada']
+const ESTADOS = ['Todos', 'En Ejecución', 'Concluido', 'Paralizada', 'Sin Ejecución']
 
 const BADGE_CLASS = {
-  'En ejecucion': 'badge badge-ejecucion',
-  'Terminada':    'badge badge-terminada',
-  'Paralizada':   'badge badge-paralizada',
-  'Por iniciar':  'badge badge-por_iniciar',
-  'Liquidada':    'badge badge-liquidada',
+  'En Ejecución':  'badge badge-ejecucion',
+  'Concluido':     'badge badge-terminada',
+  'Paralizada':    'badge badge-paralizada',
+  'Sin Ejecución': 'badge bg-slate-100 text-slate-500',
 }
 
 /**
@@ -75,7 +74,7 @@ export default function ObrasTable({
                   : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
               }`}
             >
-              {est === 'Todos' ? 'Todos' : (ESTADO_LABELS[est] ?? est)}
+              {est}
             </button>
           ))}
         </div>
@@ -121,7 +120,7 @@ export default function ObrasTable({
                   </td>
                   <td>
                     <span className={BADGE_CLASS[obra.estado] ?? 'badge bg-slate-100 text-slate-600'}>
-                      {ESTADO_LABELS[obra.estado] ?? obra.estado}
+                      {obra.estado}
                     </span>
                   </td>
                   <td className="whitespace-nowrap text-right text-slate-700">
