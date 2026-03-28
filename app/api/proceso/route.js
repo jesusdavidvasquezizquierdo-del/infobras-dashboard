@@ -61,9 +61,9 @@ export async function GET() {
     // Obtener todos los eventos del event_log (Supabase max: 10,000 por request)
     const { data: events, error } = await supabase
       .from('event_log')
-      .select('case_id, activity, time_timestamp, case_estado, case_provincia, case_monto')
+      .select('case_id, activity, timestamp, case_estado, case_provincia, case_monto')
       .order('case_id')
-      .order('time_timestamp')
+      .order('timestamp')
       .limit(10000)
 
     if (error) throw error
@@ -98,11 +98,11 @@ export async function GET() {
     for (const [caseId, evts] of Object.entries(cases)) {
       totalCases++
       // Ordenar por timestamp
-      evts.sort((a, b) => (a.time_timestamp || '').localeCompare(b.time_timestamp || ''))
+      evts.sort((a, b) => (a.timestamp || '').localeCompare(b.timestamp || ''))
 
       // Variante = secuencia de actividades únicas (sin duplicados consecutivos)
       const variant = []
-      let prev = null
+      let prevEvt = null
       for (const e of evts) {
         const act = e.activity
         if (!actFreq[act]) actFreq[act] = 0
@@ -114,14 +114,14 @@ export async function GET() {
           casesCompletados.add(caseId)
         }
 
-        if (prev && prev !== act) {
-          const key = `${prev}→${act}`
+        if (prevEvt && prevEvt.activity !== act) {
+          const key = `${prevEvt.activity}→${act}`
           dfEdges[key] = (dfEdges[key] || 0) + 1
 
           // Calcular tiempo entre eventos
-          if (prev.time_timestamp && e.time_timestamp) {
-            const d1 = new Date(prev.time_timestamp)
-            const d2 = new Date(e.time_timestamp)
+          if (prevEvt.timestamp && e.timestamp) {
+            const d1 = new Date(prevEvt.timestamp)
+            const d2 = new Date(e.timestamp)
             const days = Math.round((d2 - d1) / (1000 * 60 * 60 * 24))
             if (days >= 0 && days < 3650) {
               if (!edgeTimes[key]) edgeTimes[key] = []
@@ -132,7 +132,7 @@ export async function GET() {
           if (!variant.includes(act)) variant.push(act)
         }
         if (!variant.includes(act)) variant.push(act)
-        prev = act
+        prevEvt = e
       }
 
       // Registrar variante
