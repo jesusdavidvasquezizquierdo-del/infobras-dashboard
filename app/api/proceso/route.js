@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
+export const dynamic = 'force-dynamic'
+export const maxDuration = 60   // segundos — requiere Vercel Pro o hobby con límite extendido
+
 function sb() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -55,12 +58,13 @@ export async function GET() {
   try {
     const supabase = sb()
 
-    // Obtener todos los eventos del event_log
+    // Obtener todos los eventos del event_log (Supabase max: 10,000 por request)
     const { data: events, error } = await supabase
       .from('event_log')
       .select('case_id, activity, time_timestamp, case_estado, case_provincia, case_monto')
       .order('case_id')
       .order('time_timestamp')
+      .limit(10000)
 
     if (error) throw error
 
