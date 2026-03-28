@@ -61,7 +61,7 @@ export async function GET() {
     // Obtener todos los eventos del event_log (Supabase max: 10,000 por request)
     const { data: events, error } = await supabase
       .from('event_log')
-      .select('case_id, activity, timestamp, case_estado, case_provincia, case_monto')
+      .select('case_id, activity, timestamp, case_estado, case_monto')
       .order('case_id')
       .order('timestamp')
       .limit(10000)
