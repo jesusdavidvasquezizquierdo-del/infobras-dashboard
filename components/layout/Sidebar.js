@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import {
   LayoutDashboard, Building2, BarChart3,
-  GitBranch, AlertTriangle, Settings, ChevronRight
+  GitBranch, AlertTriangle, Settings, ChevronRight, Workflow
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -25,14 +25,19 @@ const NAV_ITEMS = [
     icon: BarChart3,
   },
   {
-    label: 'Proceso (DFG)',
-    href: '/proceso',
-    icon: GitBranch,
+    label: 'Cuellos de Botella',
+    href: '/cuellos-botella',
+    icon: Workflow,
   },
   {
     label: 'Irregularidades',
     href: '/irregularidades',
     icon: AlertTriangle,
+  },
+  {
+    label: 'Proceso (DFG)',
+    href: '/proceso',
+    icon: GitBranch,
   },
   {
     label: 'Configuración',
