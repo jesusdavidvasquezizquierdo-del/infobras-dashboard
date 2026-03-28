@@ -58,15 +58,24 @@ export async function GET() {
   try {
     const supabase = sb()
 
-    // Obtener todos los eventos del event_log (Supabase max: 10,000 por request)
-    const { data: events, error } = await supabase
-      .from('event_log')
-      .select('case_id, activity, timestamp, case_estado, case_monto')
-      .order('case_id')
-      .order('timestamp')
-      .limit(10000)
-
-    if (error) throw error
+    // Obtener todos los eventos paginando de a 1000 (límite Supabase por request)
+    let events = []
+    let from = 0
+    const PAGE = 1000
+    while (true) {
+      const { data, error } = await supabase
+        .from('event_log')
+        .select('case_id, activity, timestamp, case_estado, case_monto')
+        .order('case_id')
+        .order('timestamp')
+        .range(from, from + PAGE - 1)
+      if (error) throw error
+      if (!data || data.length === 0) break
+      events = events.concat(data)
+      if (data.length < PAGE) break
+      from += PAGE
+    }
+    const error = null
 
     if (!events || events.length === 0) {
       // Si no hay datos en event_log, intentar desde obras_detalle
