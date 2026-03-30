@@ -63,7 +63,7 @@ export default function Header() {
       {/* Última actualización */}
       <div className="hidden sm:flex items-center gap-1.5 text-xs text-slate-400 shrink-0">
         <RefreshCw className="w-3.5 h-3.5" />
-        <span>Datos 2024</span>
+        <span>Datos marzo 2026</span>
       </div>
 
       {/* Notificaciones (placeholder) */}
