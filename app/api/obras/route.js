@@ -32,9 +32,21 @@ export async function GET(request) {
       .range(from, to)
 
     if (search) {
-      query = query.or(
-        `nombre_obra.ilike.%${search}%,municipio.ilike.%${search}%`
-      )
+      // Base filter: nombre, municipio y código InfoBras
+      let orFilter = `obra_id.ilike.%${search}%,nombre_obra.ilike.%${search}%,municipio.ilike.%${search}%`
+
+      // Buscar también en obras_detalle.cui (Número Único de Inversión)
+      const { data: cuiMatches } = await supabase
+        .from('obras_detalle')
+        .select('obra_id')
+        .ilike('cui', `%${search}%`)
+
+      const cuiIds = (cuiMatches ?? []).map(r => r.obra_id).filter(Boolean)
+      if (cuiIds.length > 0) {
+        orFilter += `,obra_id.in.(${cuiIds.join(',')})`
+      }
+
+      query = query.or(orFilter)
     }
 
     if (estado) {

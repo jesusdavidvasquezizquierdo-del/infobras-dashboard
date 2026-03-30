@@ -26,11 +26,12 @@ export default function ObrasTable({
   loading = false,
   totalCount = 0,
   page = 1,
+  initialSearch = '',
   onPageChange,
   onSearch,
   onFilter,
 }) {
-  const [searchVal, setSearchVal] = useState('')
+  const [searchVal, setSearchVal] = useState(initialSearch)
   const [estado, setEstado] = useState('Todos')
   const PAGE_SIZE = 20
   const totalPages = Math.ceil(totalCount / PAGE_SIZE)
@@ -54,7 +55,7 @@ export default function ObrasTable({
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <input
             type="text"
-            placeholder="Buscar por nombre, municipio..."
+            placeholder="Buscar por nombre, municipio, código InfoBras o CUI…"
             value={searchVal}
             onChange={handleSearch}
             className="w-full pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-lg
