@@ -31,7 +31,9 @@ export async function POST(request) {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
-    return NextResponse.json({ ok: true, count: rows.length })
+    return NextResponse.json({ ok: true, count: rows.length }, {
+      headers: { 'Access-Control-Allow-Origin': '*' }
+    })
   } catch (err) {
     console.error('Route error:', err)
     return NextResponse.json({ error: err.message }, { status: 500 })
